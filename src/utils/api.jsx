@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 const url = 'http://localhost:8000';
 
 export const getRelay = async ()=>{
@@ -99,6 +100,32 @@ export const getTemp = async ()=>{
     try {
         const data = await axios.get(`${url}/gettemperature`)
         return data;
+    } catch (error) {
+        console.log("error occured")
+    }
+}
+
+export const streamAllLogs = async ()=>{
+    try {
+        await axios.get(`${url}/streamAllLogs`);
+        
+    } catch (error) {
+        console.log("error while getting logs")
+    }
+}
+
+export const getImagestr = async () =>{
+    try {
+        const result = await axios.get(`${url}/getImagestr`);
+        return result;
+    } catch (error) {
+        console.log("error occured ")
+    }
+}
+export const getAllImage = async ()=>{
+    try {
+        const result = await axios.get(`${url}/getAllImage`);
+        return result;
     } catch (error) {
         console.log("error occured")
     }

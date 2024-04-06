@@ -1,47 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography } from '@material-ui/core';
-import {getImage} from '../utils/api'
+import {getImagestr} from '../utils/api'
 
 const Showimage = () => {
-    const [imageData, setImageData] = useState(null);
-
-    useEffect(() => {
-        // Fetch image data from the API
-        fetchImageData()
-            .then(data => setImageData(data))
-            .catch(error => console.error('Error fetching image data:', error));
-    }, []);
-
-    const fetchImageData = async () => {
-        try {
-            // Fetch image data from API
-            const response = await fetch('http://localhost:8000/getImage');
-            const data = await response.json();
-
-            // Assuming 'data' is the image data object
-            const imageBuffer = Buffer.from(data.result[0].image.data);
-            const imageUrl = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
-
-            return imageUrl;
-        } catch (error) {
-            throw error;
+    const [imageId,setImageId] = useState("")
+    useEffect(()=>{
+        const test = async ()=>{
+        const id = await getImagestr();
+        // console.log("image str::::===",id.data.result[0].imageIdStr)
+        setImageId(`http://localhost:8000/image/${id.data.result[0].imageIdStr}`)
+        console.log("imaeg ::::====",imageId)
         }
-    };
-
+        test();
+    })
     return (
         <div>
-            {imageData ? (
-                <Card>
-                    <CardContent>
-                        <Typography variant="h5" component="h2">
-                            Image
-                        </Typography>
-                        <img src={imageData} alt="Image" style={{ maxWidth: '100%' }} />
-                    </CardContent>
-                </Card>
-            ) : (
-                <Typography>Loading...</Typography>
-            )}
+            
+            {/* <img src="http://localhost:8000/image/660b206e1161e71183583e96" alt="Image" width="200px" height="200px"></img> */}
+            <img src={imageId} alt="Image" width="200px" height="200px"></img>
         </div>
     );
 };
